@@ -48,4 +48,15 @@ Getting Things Done:
 + Analize
 
 ---
+todo task add 
+todo task update
+todo task delete
+todo task get
+
+
+---
+
+Backlog :
++ 
++
 
