@@ -1,11 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
 using Spectre.Console.Cli;
 
-public sealed class TaskDeleteCommand : AsyncCommand<TaskDeleteCommand.Settings>
+public sealed class TemplateWorkDeleteCommand : AsyncCommand<TemplateWorkDeleteCommandSettings>
 {
     private ITaskService taskService;
 
-    public TaskDeleteCommand(ITaskService service) : base()
+    public TemplateWorkDeleteCommand(ITaskService service) : base()
     {
         this.taskService = service;
     }
@@ -16,11 +16,12 @@ public sealed class TaskDeleteCommand : AsyncCommand<TaskDeleteCommand.Settings>
         public int Id { get; set; }
     }
 
-    public override async Task<int> ExecuteAsync([NotNull] CommandContext context, [NotNull] Settings settings)
+    public override async Task<int> ExecuteAsync([NotNull] CommandContext context, [NotNull] TemplateWorkDeleteCommandSettings settings)
     {
         await this.taskService.DeleteTask(settings.Id);
         return 1;
     }
 }
+
 
 

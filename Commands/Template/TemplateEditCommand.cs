@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
-public sealed class TaskEditCommand : AsyncCommand<TaskEditCommand.Settings>
+public sealed class TaskEditCommand : AsyncCommand<TaskEditCommandSettings>
 {
     private ITaskService taskService;
 
@@ -11,13 +11,7 @@ public sealed class TaskEditCommand : AsyncCommand<TaskEditCommand.Settings>
         this.taskService = service;
     }
 
-    public sealed class Settings : CommandSettings
-    {
-        [CommandArgument(0, "[id]")]
-        public int Id { get; set; }
-    }
-
-    public override async Task<int> ExecuteAsync([NotNull] CommandContext context, [NotNull] Settings settings)
+    public override async Task<int> ExecuteAsync([NotNull] CommandContext context, [NotNull] TaskEditCommandSettings settings)
     {
         var task = await this.taskService.GetByIdAsync(settings.Id);
         AnsiConsole.WriteLine("Edit task with:");

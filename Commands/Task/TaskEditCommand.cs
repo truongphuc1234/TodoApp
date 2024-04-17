@@ -2,24 +2,24 @@ using System.Diagnostics.CodeAnalysis;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
-public sealed class TaskCreateCommand : AsyncCommand<TaskCreateCommand.Settings>
+public sealed class TaskEditCommand : AsyncCommand<TaskEditCommandSettings>
 {
     private ITaskService taskService;
 
-    public TaskCreateCommand(ITaskService service) : base()
+    public TaskEditCommand(ITaskService service) : base()
     {
         this.taskService = service;
     }
 
-    public sealed class Settings : CommandSettings
+    public override async Task<int> ExecuteAsync([NotNull] CommandContext context, [NotNull] TaskEditCommandSettings settings)
     {
-    }
+        var task = await this.taskService.GetByIdAsync(settings.Id);
+        AnsiConsole.WriteLine("Edit task with:");
+        var name = AnsiConsole.Prompt(
+            new TextPrompt<string>("[green bold]Title[/]").DefaultValue(task.Title)
+            );
 
-    public override async Task<int> ExecuteAsync([NotNull] CommandContext context, [NotNull] Settings settings)
-    {
-        AnsiConsole.WriteLine("Create new task with:");
-        var name = AnsiConsole.Ask<string>("[green bold]Title[/]");
-
+        AnsiConsole.WriteLine("Edit task with:");
         var remind = AnsiConsole.Prompt(
             new SelectionPrompt<Remind>()
                 .Title("Remind")
@@ -33,7 +33,8 @@ public sealed class TaskCreateCommand : AsyncCommand<TaskCreateCommand.Settings>
                     Remind.Hour,
                     Remind.Day
                 })
-                .UseConverter(x => Constants.REMINDS.FirstOrDefault(l => l.Id == x)?.Description ?? string.Empty));
+                .UseConverter(x => Constants.REMINDS.FirstOrDefault(l => l.Id == x)?.Description ?? string.Empty)
+                );
 
         var priority = AnsiConsole.Prompt(
             new SelectionPrompt<Priority>()
@@ -48,7 +49,7 @@ public sealed class TaskCreateCommand : AsyncCommand<TaskCreateCommand.Settings>
 
         var isRepeat = AnsiConsole.Confirm("Repeat");
 
-        var task = new TaskItem
+        var updateTask = new TaskItem
         {
             Title = name,
             Priority = priority,
@@ -56,9 +57,8 @@ public sealed class TaskCreateCommand : AsyncCommand<TaskCreateCommand.Settings>
             Remind = remind,
             IsRepeat = isRepeat
         };
-        await this.taskService.CreateTask(task);
+        await this.taskService.UpdateTask(updateTask);
         return 1;
     }
 }
-
 

@@ -9,6 +9,7 @@ var collection = new ServiceCollection();
 collection.AddDbContext<AppDbContext>(
         options => options.UseSqlite($"Data Source={dbpath}"));
 collection.AddScoped<ITaskService, TaskService>();
+collection.AddScoped<ITemplateService, TemplateService>();
 
 var registrar = new TypeRegistrar(collection);
 
@@ -16,10 +17,13 @@ var app = new CommandApp(registrar);
 
 app.Configure(config =>
 {
-    config.AddCommand<TaskCreateCommand>("task create");
-    config.AddCommand<TaskShowCommand>("task show");
-    config.AddCommand<TaskEditCommand>("task edit");
-    config.AddCommand<TaskDeleteCommand>("task delete");
+    config.AddBranch<TaskSetting>("task", task =>
+    {
+        task.AddCommand<TaskCreateCommand>("create");
+        task.AddCommand<TaskShowCommand>("show");
+        task.AddCommand<TaskEditCommand>("edit");
+        task.AddCommand<TaskDeleteCommand>("delete");
+    });
     config.AddCommand<TemplateWorkAddCommand>("template add");
     config.AddCommand<TemplateWorkShowCommand>("template show");
     config.AddCommand<TemplateWorkEditCommand>("template edit");
