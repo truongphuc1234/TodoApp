@@ -17,7 +17,7 @@ var app = new CommandApp(registrar);
 
 app.Configure(config =>
 {
-    config.AddBranch<TaskSetting>("task", task =>
+    config.AddBranch<TaskSetting>("task|t", task =>
     {
         task.AddCommand<TaskCreateCommand>("create");
         task.AddCommand<TaskShowCommand>("show");

@@ -60,3 +60,5 @@ Backlog :
 + 
 +
 
+Add new task 
+todo t a "ABC" -p 1/2/3/4 -t abc xyz -r -s 08/12 -e 10h30/09/12 -n -c
