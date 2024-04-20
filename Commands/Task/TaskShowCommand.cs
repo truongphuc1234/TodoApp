@@ -2,21 +2,26 @@ using System.Diagnostics.CodeAnalysis;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
-public sealed class TemplateShowCommand : AsyncCommand<TemplateShowCommandSettings>
-{
-    private ITemplateService templateService;
 
-    public TemplateShowCommand(ITemplateService service) : base()
+
+public sealed class TaskShowCommand : AsyncCommand<TaskShowCommandSettings>
+{
+    private ITaskService taskService;
+
+    public TaskShowCommand(ITaskService service) : base()
     {
-        this.templateService = service;
+        this.taskService = service;
     }
 
 
-    public override async Task<int> ExecuteAsync([NotNull] CommandContext context, [NotNull] TemplateShowCommandSettings settings)
+    public override async Task<int> ExecuteAsync([NotNull] CommandContext context, [NotNull] TaskShowCommandSettings settings)
     {
-        var templates = await this.templateService.GetAllTemplates();
+        var tasks = await this.taskService.GetAllTasks();
         var grid = new Grid();
 
+        grid.AddColumn();
+        grid.AddColumn();
+        grid.AddColumn();
         grid.AddColumn();
         grid.AddColumn();
         grid.AddColumn();
@@ -24,15 +29,21 @@ public sealed class TemplateShowCommand : AsyncCommand<TemplateShowCommandSettin
         grid.AddRow(new Text[]{
             new Text("Id", new Style(Color.Red, Color.Black)).Centered(),
             new Text("Title", new Style(Color.Green, Color.Black)).Centered(),
-            new Text("Periods", new Style(Color.Blue, Color.Black)).Centered(),
+            new Text("Priority", new Style(Color.Blue, Color.Black)).Centered(),
+            new Text("Remind", new Style(Color.Aqua, Color.Black)).Centered(),
+            new Text("Is Repeat", new Style(Color.Teal, Color.Black)).Centered(),
+            new Text("Note", new Style(Color.Lime, Color.Black)).Centered(),
         });
 
-        foreach (var task in templates)
+        foreach (var task in tasks)
         {
             grid.AddRow(new Text[]{
                 new Text(task.Id.ToString()).LeftJustified(),
                 new Text(task.Title).Centered(),
-                new Text(task.Periods[0]).Centered(),
+                new Text(task.Priority.ToString()).Centered(),
+                new Text(task.Remind.ToString()).Centered(),
+                new Text(task.IsRepeat.ToString()).Centered(),
+                new Text(task.Note.ToString()).Centered(),
             });
         }
 

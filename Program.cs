@@ -24,10 +24,10 @@ app.Configure(config =>
         task.AddCommand<TaskEditCommand>("edit");
         task.AddCommand<TaskDeleteCommand>("delete");
     });
-    config.AddCommand<TemplateWorkAddCommand>("template add");
-    config.AddCommand<TemplateWorkShowCommand>("template show");
-    config.AddCommand<TemplateWorkEditCommand>("template edit");
-    config.AddCommand<TemplateWorkDeleteCommand>("template delete");
+    config.AddCommand<TemplateCreateCommand>("template add");
+    config.AddCommand<TemplateShowCommand>("template show");
+    config.AddCommand<TemplateEditCommand>("template edit");
+    config.AddCommand<TemplateDeleteCommand>("template delete");
 
 });
 return app.Run(args);
