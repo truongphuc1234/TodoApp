@@ -1,5 +1,7 @@
+using System.ComponentModel.DataAnnotations;
+
 public class Label
 {
-    public int Id { get; set; }
-    public string Description { get; set; } = string.Empty;
+    [Key]
+    public string Name { get; set; } = string.Empty;
 }

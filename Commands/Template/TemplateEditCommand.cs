@@ -2,11 +2,11 @@ using System.Diagnostics.CodeAnalysis;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
-public sealed class TaskEditCommand : AsyncCommand<TaskEditCommandSettings>
+public sealed class TemplateEditCommand : AsyncCommand<TaskEditCommandSettings>
 {
     private ITaskService taskService;
 
-    public TaskEditCommand(ITaskService service) : base()
+    public TemplateEditCommand(ITaskService service) : base()
     {
         this.taskService = service;
     }

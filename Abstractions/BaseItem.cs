@@ -5,7 +5,7 @@ public abstract class BaseItem
     public Remind Remind { get; set; }
     public bool IsRepeat { get; set; }
     public Priority Priority { get; set; }
-    public Label? Label { get; set; }
+    public List<Label> Labels { get; set; } = new List<Label>();
     public string Note { get; set; } = string.Empty;
 }
 

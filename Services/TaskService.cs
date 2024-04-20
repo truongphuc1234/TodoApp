@@ -9,10 +9,11 @@ public class TaskService : ITaskService
         this.db = db;
     }
 
-    public async Task CreateTask(TaskItem task)
+    public async Task<TaskItem> CreateTask(TaskItem task)
     {
         db.Add(task);
         await db.SaveChangesAsync();
+        return task;
     }
 
     public async Task<List<TaskItem>> GetAllTasks()

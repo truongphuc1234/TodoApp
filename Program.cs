@@ -10,6 +10,7 @@ collection.AddDbContext<AppDbContext>(
         options => options.UseSqlite($"Data Source={dbpath}"));
 collection.AddScoped<ITaskService, TaskService>();
 collection.AddScoped<ITemplateService, TemplateService>();
+collection.AddScoped<ITaskUIService, TaskUIService>();
 
 var registrar = new TypeRegistrar(collection);
 
@@ -17,17 +18,12 @@ var app = new CommandApp(registrar);
 
 app.Configure(config =>
 {
-    config.AddBranch<TaskSetting>("task|t", task =>
+    config.AddBranch<TaskSetting>("task", task =>
     {
         task.AddCommand<TaskCreateCommand>("create");
         task.AddCommand<TaskShowCommand>("show");
         task.AddCommand<TaskEditCommand>("edit");
         task.AddCommand<TaskDeleteCommand>("delete");
     });
-    config.AddCommand<TemplateCreateCommand>("template add");
-    config.AddCommand<TemplateShowCommand>("template show");
-    config.AddCommand<TemplateEditCommand>("template edit");
-    config.AddCommand<TemplateDeleteCommand>("template delete");
-
 });
 return app.Run(args);
