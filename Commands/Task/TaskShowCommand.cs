@@ -7,13 +7,17 @@ public sealed class TaskShowCommand : AsyncCommand<TaskShowCommandSettings>
     private ITaskService taskService;
     private ITaskUIService uiService;
 
-    public TaskShowCommand(ITaskService service, ITaskUIService uiService) : base()
+    public TaskShowCommand(ITaskService service, ITaskUIService uiService)
+        : base()
     {
         this.taskService = service;
         this.uiService = uiService;
     }
 
-    public override async Task<int> ExecuteAsync([NotNull] CommandContext context, [NotNull] TaskShowCommandSettings settings)
+    public override async Task<int> ExecuteAsync(
+        [NotNull] CommandContext context,
+        [NotNull] TaskShowCommandSettings settings
+    )
     {
         var tasks = await this.taskService.GetAllTasks();
         var grid = this.uiService.CreateTaskGrid(tasks);
@@ -22,5 +26,3 @@ public sealed class TaskShowCommand : AsyncCommand<TaskShowCommandSettings>
         return 1;
     }
 }
-
-

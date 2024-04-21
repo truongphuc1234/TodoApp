@@ -7,13 +7,17 @@ public sealed class TaskCreateCommand : AsyncCommand<TaskCreateCommandSettings>
     private ITaskService taskService;
     private ITaskUIService uiService;
 
-    public TaskCreateCommand(ITaskService service, ITaskUIService uiService) : base()
+    public TaskCreateCommand(ITaskService service, ITaskUIService uiService)
+        : base()
     {
         this.taskService = service;
         this.uiService = uiService;
     }
 
-    public override async Task<int> ExecuteAsync([NotNull] CommandContext context, [NotNull] TaskCreateCommandSettings settings)
+    public override async Task<int> ExecuteAsync(
+        [NotNull] CommandContext context,
+        [NotNull] TaskCreateCommandSettings settings
+    )
     {
         var priority = (Priority)Enum.ToObject(typeof(Priority), settings.Priority);
 
@@ -26,12 +30,18 @@ public sealed class TaskCreateCommand : AsyncCommand<TaskCreateCommandSettings>
             IsRepeat = settings.IsRepeat,
         };
 
-        if (!string.IsNullOrEmpty(settings.StartAt) && DateTime.TryParse(settings.StartAt, out var startAt))
+        if (
+            !string.IsNullOrEmpty(settings.StartAt)
+            && DateTime.TryParse(settings.StartAt, out var startAt)
+        )
         {
             task.StartAt = startAt;
         }
 
-        if (!string.IsNullOrEmpty(settings.EndAt) && DateTime.TryParse(settings.EndAt, out var endAt))
+        if (
+            !string.IsNullOrEmpty(settings.EndAt)
+            && DateTime.TryParse(settings.EndAt, out var endAt)
+        )
         {
             task.EndAt = endAt;
         }
@@ -42,10 +52,7 @@ public sealed class TaskCreateCommand : AsyncCommand<TaskCreateCommandSettings>
         {
             foreach (var label in settings.Tags)
             {
-                labels.Add(new Label
-                {
-                    Name = label
-                });
+                labels.Add(new Label { Name = label });
             }
         }
 
@@ -57,4 +64,3 @@ public sealed class TaskCreateCommand : AsyncCommand<TaskCreateCommandSettings>
         return 1;
     }
 }
-
