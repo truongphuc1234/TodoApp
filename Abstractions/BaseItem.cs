@@ -8,4 +8,3 @@ public abstract class BaseItem
     public List<Label> Labels { get; set; } = new List<Label>();
     public string Note { get; set; } = string.Empty;
 }
-

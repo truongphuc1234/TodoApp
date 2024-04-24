@@ -26,6 +26,7 @@ app.Configure(config =>
             task.AddCommand<TaskEditCommand>("edit");
             task.AddCommand<TaskDeleteCommand>("delete");
             task.AddCommand<TaskCompleteCommand>("complete");
+            task.AddCommand<TaskCompleteCommand>("run");
         }
     );
 });
